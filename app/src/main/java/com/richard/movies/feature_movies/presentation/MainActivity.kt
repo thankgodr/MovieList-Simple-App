@@ -1,4 +1,4 @@
-package com.richard.movies
+package com.richard.movies.feature_movies.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
