@@ -1,21 +1,24 @@
 package com.richard.movies.feature_movies.presentation.movie_list
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Error
 import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.OndemandVideo
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
-import com.google.accompanist.flowlayout.FlowRow
-import com.google.accompanist.flowlayout.SizeMode
 import com.richard.movies.R
 import com.richard.movies.feature_movies.domain.model.Movie
+import com.skydoves.landscapist.ShimmerParams
+import com.skydoves.landscapist.glide.GlideImage
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,16 +34,42 @@ fun MovieCard(
         ),
         shape = MaterialTheme.shapes.large
     ) {
-        Image(
-            painter = rememberAsyncImagePainter(
-                model = movie.getFullImagePath()
+
+
+        GlideImage(
+            imageModel = movie.getFullImagePath(),
+            contentScale = ContentScale.Crop,
+            shimmerParams = ShimmerParams(
+                baseColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                highlightColor = Color.White,
+                durationMillis = 350,
+                dropOff = 0.65f,
+                tilt = 20f
             ),
-            contentDescription = "${movie.name} ${stringResource(id = R.string.image)}",
+            // shows an error text message when request failed.
+            failure = {
+                Icon(
+                    Icons.Outlined.Error,
+                    contentDescription = stringResource(id = R.string.failed),
+                    modifier = Modifier.align(Alignment.Center),
+                    tint = MaterialTheme.colorScheme.error
+                )
+                Text(
+                    text = "image request failed.",
+                    modifier = Modifier
+                        .align(Alignment.Center)
+                        .padding(top = 24.dp)
+                )
+            },
             modifier = Modifier
                 .clip(MaterialTheme.shapes.large)
                 .fillMaxWidth()
-                .aspectRatio(3f / 2f)
+                .aspectRatio(3f / 2f),
         )
+
+
+
+
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
@@ -49,10 +78,9 @@ fun MovieCard(
                 style = MaterialTheme.typography.titleLarge
             )
             Spacer(modifier = Modifier.height(8.dp))
-            FlowRow(
+            Row(
                 modifier = Modifier.fillMaxWidth(),
-                mainAxisSpacing = 8.dp,
-                mainAxisSize = SizeMode.Wrap
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 AssistChip(
                     onClick = { },
@@ -66,7 +94,7 @@ fun MovieCard(
                         )
                     },
                     label = {
-                        Text(text = "Mark as favorite")
+                        Text(text = "Like")
                     }
                 )
                 AssistChip(
@@ -81,9 +109,26 @@ fun MovieCard(
                         )
                     },
                     label = {
-                        Text(text = "Share with others")
+                        Text(text = "Share ")
                     }
                 )
+
+                AssistChip(
+                    onClick = { },
+                    colors = AssistChipDefaults.assistChipColors(
+                        leadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
+                    ),
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.OndemandVideo,
+                            contentDescription = null
+                        )
+                    },
+                    label = {
+                        Text(text = "Play")
+                    }
+                )
+
             }
         }
     }

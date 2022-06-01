@@ -10,6 +10,6 @@ data class Movie(
     val movieID: Int
 ) {
     fun getFullImagePath(): String {
-        return Constants.BASE_URL + imageUrl
+        return Constants.IMGAE_URL + imageUrl
     }
 }

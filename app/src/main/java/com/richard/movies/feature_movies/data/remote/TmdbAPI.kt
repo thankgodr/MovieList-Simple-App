@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface TmdbAPI {
 
-    @GET("3/discover/movie?language=en-US&sort_by=popularity.desc")
+    @GET("discover/movie?language=en-US&sort_by=popularity.desc")
     suspend fun getMovies(
         @Query("page") page: Int = 1
     ): PopalarMoviesDto

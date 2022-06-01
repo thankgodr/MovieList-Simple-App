@@ -16,6 +16,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.richard.movies.feature_movies.presentation.destinations.MovieDetailsScreenDestination
 
 
 @RootNavGraph(start = true)
@@ -36,7 +37,7 @@ fun MovieListScreen(
         }
     ) {
         LazyVerticalGrid(
-            columns = GridCells.Adaptive(250.dp),
+            columns = GridCells.Adaptive(200.dp),
             contentPadding = PaddingValues(
                 start = 12.dp,
                 top = 16.dp,
@@ -45,10 +46,13 @@ fun MovieListScreen(
             ),
             content = {
                 items(state.movies) { movie ->
-                    MovieCard(movie = movie,
+                    MovieCard(
+                        movie = movie,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { }
+                            .clickable {
+                                navigator.navigate(MovieDetailsScreenDestination)
+                            }
                             .padding(16.dp)
                     )
                 }
