@@ -1,4 +1,4 @@
-# MovieList-Simple-App
+# MovieList Simple App
 Simple Android app that list movie from TMDB
 
 ## Architecture Used
