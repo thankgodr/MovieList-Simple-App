@@ -43,11 +43,11 @@ class MovieRepositoryImpl @Inject constructor(
                 list
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Error("Couldn't load data")) //Todo Localise
                 null
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error("Couldn't load data"))
+                emit(Resource.Error("Couldn't load data")) //Todo Localise
                 null
             }
 
@@ -65,23 +65,28 @@ class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getMovieDetails(movie: Movie): Resource<MovieDetail> {
-        return try {
-            val response = api.getMovieDatils(movie.movieID.toString())
-            Resource.Success(
-                response.toMovieDtails()
-            )
-        } catch (e: IOException) {
-            e.printStackTrace()
-            Resource.Error(
-                message = "Couldn't load intraday info"
-            )
-        } catch (e: HttpException) {
-            e.printStackTrace()
-            Resource.Error(
-                message = "Couldn't load intraday info"
-            )
+    override suspend fun getMovieDetails(movie: Movie): Flow<Resource<MovieDetail>> =
+        flow {
+            try {
+                emit(Resource.Loading<MovieDetail>(true))
+                val response = api.getMovieDatils(movie.movieID.toString())
+                val res = Resource.Success<MovieDetail>(
+                    response.toMovieDtails()
+                )
+                emit(res)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                val res = Resource.Error<MovieDetail>(
+                    message = "Couldn't load intraday info" //Todo Localise
+                )
+            } catch (e: HttpException) {
+                e.printStackTrace()
+                val res = Resource.Error<MovieDetail>(
+                    message = "Couldn't load intraday info" //Todo Localise
+                )
+                emit(res)
+            }
+            emit(Resource.Loading<MovieDetail>(false))
         }
-    }
 
 }

@@ -6,4 +6,6 @@ data class MovieListState(
     val movies: List<Movie> = emptyList(),
     val isLoading: Boolean = false,
     val isRefreshing: Boolean = false,
+    val errorMessage: String = "",
+    val error: Boolean = false
 )

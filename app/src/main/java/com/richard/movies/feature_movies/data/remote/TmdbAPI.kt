@@ -3,6 +3,7 @@ package com.richard.movies.feature_movies.data.remote
 import com.richard.movies.feature_movies.data.remote.dto.MovieDetailDto
 import com.richard.movies.feature_movies.data.remote.dto.PopalarMoviesDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface TmdbAPI {
@@ -12,9 +13,9 @@ interface TmdbAPI {
         @Query("page") page: Int = 1
     ): PopalarMoviesDto
 
-
+    @GET("movie/{movie_id}")
     suspend fun getMovieDatils(
-        @Query("movie_id") movie_id: String
+        @Path("movie_id") movie_id: String
     ): MovieDetailDto
 
 }

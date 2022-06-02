@@ -15,6 +15,8 @@ import javax.inject.Inject
 class MovieListViewModel @Inject constructor(
     private val repository: MoviesRespository
 ) : ViewModel() {
+
+
     var state by mutableStateOf(MovieListState())
 
     fun onEvent(event: MovieListEvent) {
@@ -42,7 +44,7 @@ class MovieListViewModel @Inject constructor(
                             )
                         }
                     }
-                    is Resource.Error -> Unit
+                    is Resource.Error -> Unit ////Todo Show error
                     is Resource.Loading -> {
                         state = state.copy(isLoading = result.isLoading)
                     }
@@ -50,4 +52,5 @@ class MovieListViewModel @Inject constructor(
             }
         }
     }
+
 }

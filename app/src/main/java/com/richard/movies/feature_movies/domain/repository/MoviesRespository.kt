@@ -10,5 +10,5 @@ interface MoviesRespository {
         fetchFromRemote: Boolean
     ): Flow<Resource<List<Movie>>>
 
-    suspend fun getMovieDetails(movie: Movie): Resource<MovieDetail>
+    suspend fun getMovieDetails(movie: Movie): Flow<Resource<MovieDetail>>
 }
